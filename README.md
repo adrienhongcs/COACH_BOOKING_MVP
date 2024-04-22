@@ -24,3 +24,21 @@
   
 </details>
 
+## Technical Overview
+
+The goal of this project was to build an MVP **quickly** - as such, the tech stack chosen was largely driven by whatever technology I'm most familiar with at the time of writing:
+  - Django backend (using the default SQLite setup) + Graphene to build GraphQL endpoints.
+  - Apollo Client + React + Ant Design (UI library).
+
+<details>
+  <summary>Database</summary>
+</details>
+
+<details>
+  <summary>Backend</summary>
+</details>
+
+<details>
+  <summary>Frontend</summary>
+</details>
+
