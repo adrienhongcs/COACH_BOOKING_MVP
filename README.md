@@ -32,14 +32,49 @@ The goal of this project was to build an MVP **quickly** - as such, the tech sta
 
 <details>
   <summary>Database</summary>
+
+  <img width="373" alt="Screenshot 2024-04-21 at 9 53 17 PM" src="https://github.com/adrienhongcs/COACH_BOOKING_MVP/assets/64567338/68996867-6bea-4666-bedb-2560c40151eb">
+
+  - Very minimal schema.
+  - Would be good to look at constraints and validation at the database level.
+  - Potentially look at transaction (lock on a row) while booking a slot to handle concurrency.
+
 </details>
 
 <details>
   <summary>Backend</summary>
+
+  #### GraphQL Queries
+  - `slot(id: ID): SlotType`
+  - `slots(startTime: String, endTime: String, coachId: ID, studentId: ID, withCall: Boolean): [SlotType]`
+  - `slotCounts(year: Int, month: Int, coachId: ID, studentId: ID): JSONString`
+  - `call(id: ID): CallType`
+  - `calls: [CallType]`
+  - `coach(id: ID): CoachType`
+  - `coaches: [CoachType]`
+  - `student(id: ID): StudentType`
+  - `students: [StudentType]`
+  
+  #### GraphQL Mutations
+  - `createSlot(coachId: ID, startTime: String): CreateSlotMutation`
+  - `bookSlot(id: ID, studentId: ID): BookSlotMutation`
+  - `createCall(notes: String, satisfactionScore: Int, slotId: ID): CreateCallMutation`
+
 </details>
 
 <details>
   <summary>Frontend</summary>
+
+  - Minimal styling.
+  - Caching policy: reset on any change.
+    - Works in this simplified MVP where all data is related - would need to revisit to only invalidate and evict stale data.
+  - Components:
+    - `<Calendar />`
+    - `<DayModal />`
+    - `<CallForm />`
+    - `<SlotTimeline />`
+    - `<Slot />`
+  
 </details>
 
 ## Next Steps
@@ -49,5 +84,6 @@ The goal of this project was to build an MVP **quickly** - as such, the tech sta
 - [ ] More granular caching strategy.
 - [ ] Validation logic (ex: Adding a slot in the past, etc.).
 - [ ] Better UX informing end user that a slot is 2 hours long.
+- [ ] Scheduling concurrency (_two students try to book the same slot at the same time_). 
 - [ ] ...
-- [ ] Non-MVP code quality (tests, better abstractions, ...)
+- [ ] Non-MVP code quality (tests, better abstractions, types...)
