@@ -39,7 +39,13 @@ class Query(graphene.ObjectType):
         return Slot.objects.filter(id=id).first()
 
     def resolve_slots(
-        root, info, start_time=None, end_time=None, coach_id=None, student_id=None, with_call=None
+        root,
+        info,
+        start_time=None,
+        end_time=None,
+        coach_id=None,
+        student_id=None,
+        with_call=None,
     ):
         qs = Slot.objects.all()
         if coach_id:
