@@ -22,6 +22,8 @@ function DayModal({ coachId, studentId, dayjs, open, onCancel, onOk }) {
       onOk();
     });
   }, [onOk]);
+  const disabledHours = () =>
+    [...Array(24).keys()].filter((hour) => hour < 9 || 15 < hour);
   return (
     <Modal
       title={dayjs?.format("ddd, DD MMM YYYY").toString()}
@@ -39,7 +41,11 @@ function DayModal({ coachId, studentId, dayjs, open, onCancel, onOk }) {
       {coachId && (
         <Form form={form}>
           <Form.Item label="Start time" name="startTime" required>
-            <TimePicker format={"HH:mm"} minuteStep={30} />
+            <TimePicker
+              format={"HH:mm"}
+              minuteStep={30}
+              disabledTime={() => ({ disabledHours: disabledHours })}
+            />
           </Form.Item>
         </Form>
       )}
