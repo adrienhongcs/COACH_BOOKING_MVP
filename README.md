@@ -42,3 +42,12 @@ The goal of this project was to build an MVP **quickly** - as such, the tech sta
   <summary>Frontend</summary>
 </details>
 
+## Next Steps
+
+- [ ] Handle timezones.
+- [ ] Error handling on the UI (_currently a non-user friendly components pops out when attempting to add an overlapping slot for example_).
+- [ ] More granular caching strategy.
+- [ ] Validation logic (ex: Adding a slot in the past, etc.).
+- [ ] Better UX informing end user that a slot is 2 hours long.
+- [ ] ...
+- [ ] Non-MVP code quality (tests, better abstractions, ...)
