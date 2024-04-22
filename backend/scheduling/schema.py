@@ -1,7 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
 from scheduling.models import Slot, Call
-from datetime import datetime
+from datetime import datetime, timezone
 from dateutil.relativedelta import relativedelta
 from django.db.models import Q
 
@@ -47,31 +47,25 @@ class Query(graphene.ObjectType):
         student_id=None,
         with_call=None,
     ):
-        qs = Slot.objects.all()
-        if coach_id:
-            qs = qs.filter(coach_id=coach_id)
-        if student_id:
-            qs = qs.filter(Q(student_id=student_id) | Q(student_id__isnull=True))
-        if start_time:
-            start_time = datetime.fromisoformat(start_time)
-            qs = qs.filter(start_time__gte=start_time)
-        if end_time:
-            end_time = datetime.fromisoformat(end_time)
-            qs = qs.filter(end_time__lt=end_time)
-        if with_call is not None:
-            qs = qs.filter(call__isnull=bool(with_call))
+        qs = Slot.apply_filters(
+            start_time=start_time,
+            end_time=end_time,
+            coach_id=coach_id,
+            student_id=student_id,
+            with_call=with_call,
+        )
         return qs.order_by("start_time")
 
     def resolve_slot_counts(root, info, year, month, coach_id=None, student_id=None):
-        qs = Slot.objects.all()
-        if coach_id:
-            qs = qs.filter(coach_id=coach_id)
-        if student_id:
-            qs = qs.filter(Q(student_id=student_id) | Q(student_id__isnull=True))
-
-        start_date = datetime(year, month, 1)
-        end_date = start_date + relativedelta(months=1)
-        qs = qs.filter(start_time__gte=start_date, start_time__lt=end_date)
+        start_time = datetime(year, month, 1, tzinfo=timezone.utc)
+        end_time = start_time + relativedelta(months=1)
+        qs = Slot.apply_filters(
+            start_time=start_time,
+            end_time=end_time,
+            coach_id=coach_id,
+            student_id=student_id,
+        )
+        # breakpoint()
 
         slot_counts = {}
         for slot in qs:
