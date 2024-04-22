@@ -27,9 +27,9 @@ function Slot({ slotId, coachId, studentId, showDate = false}) {
   
   const formatName = () => {
     if (studentId && slot?.coach) {
-      return `with ${slot.coach.firstName} ${slot.coach.lastName}`;
+      return `with ${slot.coach.firstName} ${slot.coach.lastName} | ${slot.student ? slot.coach.phoneNumber : ''}`;
     } else if (slot?.student) {
-        return `with ${slot.student.firstName} ${slot.student.lastName}`
+        return `with ${slot.student.firstName} ${slot.student.lastName} | ${slot.student.phoneNumber}`
     }
   };
 
